@@ -4,25 +4,13 @@ import TodoList from "./TodoList";
 
 function App() {
 
-  // const todos = [
-  //   {
-  //     name: 'Prepare WDCC workshop',
-  //     isComplete: true
-  //   },
-  //   {
-  //     name: 'Run WDCC workshop',
-  //     isComplete: false
-  //   }
-  // ]
-
-  const todos = [];
-
-
   return (
     <React.Fragment>
       <h1>My app</h1>
       <AboutMe name="Bob" age={21} />
-      <TodoList todos={todos} />
+
+      {/* Don't need to supply todos anymore - they are obtained from context instead. */}
+      <TodoList />
     </React.Fragment>
   );
 }
