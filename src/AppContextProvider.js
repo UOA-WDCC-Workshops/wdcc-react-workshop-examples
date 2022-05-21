@@ -1,39 +1,46 @@
+import axios from 'axios';
 import React from 'react';
-import { useState } from 'react';
+import useGet from './useGet';
 
 // Create a context object, can be used anywhere we need
 // to access the context info in this provider.
 export const AppContext = React.createContext({ todos: [] });
 
-const initialTodos = [
-    {
-        name: 'Prepare WDCC workshop',
-        isComplete: true
-    },
-    {
-        name: 'Run WDCC workshop',
-        isComplete: false
-    }
-]
+// const initialTodos = [
+//     {
+//         name: 'Prepare WDCC workshop',
+//         isComplete: true
+//     },
+//     {
+//         name: 'Run WDCC workshop',
+//         isComplete: false
+//     }
+// ]
 
 export function AppContextProvider({ children }) {
 
-    // Stateful todo list
-    const [todos, setTodos] = useState(initialTodos);
+    const { data, isLoading, refresh } = useGet('https://trex-sandwich.com/wdcc-workshop/api/todos/amea020');
 
-    function toggleTodoComplete(index) {
-        // Copy todo array
-        const newTodos = [...todos];
-        // Toggle the single todo in the copied array
-        newTodos[index].isComplete = !newTodos[index].isComplete;
-        // Completely replace the old todo list with the new one
-        setTodos(newTodos);
+    // Stateful todo list
+    // const [todos, setTodos] = useState(initialTodos);
+
+    function toggleTodoComplete(todo) {
+        // Updates the todo by toggling its isComplete status
+        const newTodo = {
+            ...todo,
+            isComplete: !todo.isComplete
+        }
+
+        // PUTs the updated todo on the server (replacing the old one)
+        axios.put(`https://trex-sandwich.com/wdcc-workshop/api/todos/amea020/${todo.id}`, newTodo)
+            .then(() => refresh());
     }
 
     // All this info will be made available to any children of
     // this provider
     const context = {
-        todos,
+        todos: data,
+        todosLoading: isLoading,
         toggleTodoComplete
     }
 

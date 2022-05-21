@@ -1,0 +1,18 @@
+.nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav a {
+    text-decoration: none;
+}
+
+.activeLink {
+    font-weight: bold;
+    color: black;
+}
+
+.inactiveLink {
+    font-style: italic;
+    color: darkgray;
+}
