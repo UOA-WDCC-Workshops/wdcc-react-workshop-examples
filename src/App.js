@@ -1,17 +1,25 @@
 import AboutMe from "./AboutMe";
 import React from 'react';
 import TodoList from "./TodoList";
+import { Route, Routes } from "react-router-dom";
+import Page from "./Page";
 
 function App() {
 
   return (
-    <React.Fragment>
-      <h1>My app</h1>
-      <AboutMe name="Bob" age={21} />
+    <Routes>
+      {/* Always render Page */}
+      <Route path="/" element={<Page />}>
 
-      {/* Don't need to supply todos anymore - they are obtained from context instead. */}
-      <TodoList />
-    </React.Fragment>
+        {/* If we browse to /about, render AboutMe inside of Page */}
+        <Route path="about"
+          element={<AboutMe name="Bob" age={21} />} />
+
+        <Route path="todos"
+          element={<TodoList />} />
+
+      </Route>
+    </Routes>
   );
 }
 

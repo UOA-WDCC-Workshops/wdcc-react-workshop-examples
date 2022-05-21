@@ -7,15 +7,16 @@ export default function TodoList() {
 
     // Grab the todos from context, along with a function
     // to toggle the state of a todo.
-    const { todos, toggleTodoComplete } = useContext(AppContext);
+    const { todos, todosLoading, toggleTodoComplete } = useContext(AppContext);
 
     return (
         <div>
             <h2>My todo list</h2>
+            {todosLoading && <p>Loading...</p>}
             {todos && todos.length > 0 ? (
                 <ul className={styles.list}>
-                    {todos.map((todo, index) => (
-                        <li className={styles.listItem} onClick={() => toggleTodoComplete(index)}>{todo.name} (is complete: {todo.isComplete.toString()})</li>
+                    {todos.map((todo) => (
+                        <li key={todo.id} className={styles.listItem} onClick={() => toggleTodoComplete(todo)}>{todo.description} (is complete: {todo.isComplete.toString()})</li>
                     ))}
                 </ul>
             ) : (
